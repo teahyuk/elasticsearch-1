@@ -48,7 +48,6 @@
  4. node : elasticsearch를 실행하는 프로세스, elasticsearch의 인스턴스
  5. shard : index 의 일부분, 하나의 루씬 index, 역 색인을 포함하는 파일들의 모음
  6. cluster : 클러스터
- 7. replica : 복제
- 8. index : 색인
- 9. replica : 주 샤드의 복사본
- 10. chunks : elasticsearch index는 shard라는 chunks로 나뉜다.
+ 7. index : 색인
+ 8. replica : 주 샤드의 복사본
+ 9. chunks : elasticsearch index는 shard라는 chunks로 나뉜다.
