@@ -2,7 +2,7 @@
 - [Sample.KR](http://www.acornpub.co.kr/book/elasticsearch-cookbook-3)
 - [Sample.US](https://github.com/PacktPublishing/Elasticsearch-5x-Cookbook-Third-Edition)
 
-## 시작하기
+## 01 시작하기
 - 노드와 클러스터의 이해
 - 노드 서비스의 이해
 - 데이터 관리
@@ -57,7 +57,7 @@
 #### 참조
 - [Java API](https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html)
 
-## 다운로드와 설정
+## 02 다운로드와 설정
 - 일래스틱서치 다운로드 및 설치
 - 네트워킹 설정
 - 노드 설정
