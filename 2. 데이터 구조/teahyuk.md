@@ -1,7 +1,6 @@
 # Elastic search 데이터 구조
 
 ## 데이터 구조
----
 
 1. 인덱스 : 예전엔 Database와 같게보았으나 요즘은 RDBMS의 테이블과 매치됨
 2. 타입 : Deprecated됨, 이전 소개부분 참조
@@ -19,7 +18,6 @@
 
 
 ## 데이터 수집, indexing
----
 
 ### 공통
 - `_`가 붙으면 메타데이터(내장필드) 또는 elasticSearch쪽 명령을 사용하게 된다.
@@ -48,6 +46,7 @@
 - '_update'명령을 사용한다.
 - 내부 동작 방식은 'GET'으로 가져와서 확인 후 script결과에 맞게 다시 'POST'하는 방식으로 동작한다.
 - script로 MVEL 문법을 사용해서 변경 가능하다.
+    - elastic 6.x 이상부터는 painless라는 문법 사용
 
 ### bulk
 
@@ -56,9 +55,9 @@
 - doc개수는 1000~5000개가 좋고 10,000 개 넘어가면 오류가능성이 있다.
 - udp를 통해 bulk로 받을 수도 있다.
 
-
-## 매핑
 ---
+
+# 매핑
 
 indexing을 위한 매핑 방식을 정의 하는 방법론.
 
@@ -68,48 +67,93 @@ indexing을 위한 매핑 방식을 정의 하는 방법론.
 - mapping 삭제를 시도하면 데이터가 다 날라간다고 책에서 설명한다
     - 하지만 DELETE 메소드 자체가 응답 안되도록 에러를 날리게됨.
 
-### 내장필드 매핑
+## 내장필드 매핑
 
 - `_`로 시작하는 엘라스틱서치에서 각 document의 메타데이터와 같은 내부 기능들을 설명한 필드들이다.
 
-#### `_id`
+### `_id`
 
 - document id를 나타냄
 
-##### 옵션
+#### 옵션
 
 1. index : 색인 여부 (default false)
 2. store : 저장 여부 (default false)
-3. path : 내부 필드 중 한가지로 자동 id 매핑
+3. path : 내부 필드 중 한가지로 자동 id 매핑 (deprecated)
+    - 원인은 같은 index내부에서 다른 type의 같은 내부 필드 path를 id로 지정 했을 때에 aggregation에서 에러가 날 수 있다는 것이다.
+    - 6.x이후로 같은 index의 여러 type은 제거되었지만, _id속성이 document내용에 의존성을 갖는다는 것 자체가 좋지 않다고 여겨져 그대로 폐기된 상태이다.
 
-#### `_source`
+### `_source`
 
 - 원본데이터 저장되는 내장필드
 
-##### 옵션
+#### 옵션
 
 1. enabled : 전체 raw data 저장여부
 2. includes : 저장 포함할 필드
 3. excludes : 저장 제외할 필드
 
-#### `_all`
+### `_all`
 
 - 검색할 대상 필드 지정용 내장필드
 
-##### 옵션
+#### 옵션
 
 1. enabled : `_all` 사용여부
 2. 각 properties 의 필드 중 inculde_in_all : 색인 사용 여부
 
-#### `_analyzer`
+### `_analyzer`
 
 - 분석기사용 내장필드
 
-#### `_timestamp`
+### `_timestamp`
 
 - document저장 된 시간의 타임스탬프
 
-##### 옵션
+#### 옵션
 
 1. enabled : 사용여부
 2. store : 저장 여부
+
+### `_ttl`
+
+- 데이터 유지 시간 설정
+- 시간이 지나면 자동으로 사라짐
+
+#### 옵션
+
+1. enabled : 사용여부 (default false)
+2. default : 유지할 시간 (d,m,h,s,ms,w 를 이용한 string)
+
+## 데이터 타입
+
+|type|내용|
+|---|---|
+|text|analyze 가 더 필요한 분석되지 않은 </br>날것 그대로의 string필드|
+|keyword|논리적이든 어떤 모양으로든 분석이 완료된 </br>더이상의 분석이 필요없는 string필드|
+|long|숫자|
+|float|부동소수점 숫자|
+|double|double|
+|date|날짜|
+|boolean|bool값|
+|binary|binary타입|
+|range|각 primitive타입 간 범위,</br> 검색시 유용하다.|
+|object|json자체가 스키마가없는 여러단계의 데이터로 활용 가능하다.</br> 매핑도 그냥 doc뎁스와 같이 설정 하면 된다.|
+|geo-point|지도 좌표|
+|geo-shape|지도에서의 모양까지 포함된 geo-point를 포함하고있는 특별한 타입|
+|ip|ip주소|
+|token|주로 멀티필드로 사용되며 토큰화된 수 저장함|
+
+### 다중필드
+
+하나의 필드에서 여러 타입을 지정 할 수 있다. </br>
+이러면 여러 필드의 색인에 저장되여 여러 방식으로 검색이 가능하다
+
+### 필드 복사
+
+필드 복사도 가능하다. 방식은 필요할 때 봐서 확인하여 사용
+
+
+
+
+
