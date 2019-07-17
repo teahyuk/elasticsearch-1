@@ -45,8 +45,14 @@
     - 너무 적은 샤드는 확장에 제한을 주고 너무 많은 샤드는 성능에 영향을 준다.
 
 ### split brain
+ ~~~
+ 일반적으로 클러스터로 구성된 두 시스템 그룹간 네트워크의 일시적 동시 단절현상이 발생 시 나타나는 현상.
+ elasticsearch 이외에도 클러스터로 구성된 시스템이라면 겪는 현상.
+ https://en.wikipedia.org/wiki/Split-brain_(computing)
+ ~~~
  - 클러스터의 두 파트가 통신할 수 없어서 다른 파트가 떨어져 나갔다고 판단하는 현상.
- - 노드가 충분히 빨라 서로간의 통신을 할 수 있도록 보장해야함.
+ - 서로간의 통신을 할 수 있도록 보장해야함.
+ - [해결방법_가이드](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/modules-node.html#split-brain)
 
 ### replica
  - 주 샤드의 정확한 복사본이다.
