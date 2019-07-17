@@ -2,7 +2,7 @@
 
 ## 용어 정리
 
-### elastic stack 
+### Elastic stack 
 
  - Elastic Search를 활용하기위한 전체 시스템 서비스들 (Elastic Search, Logstash, Beats, Kibana가 있다)
 
@@ -20,7 +20,7 @@
     1. master node : 인덱스 생성 관리등을 위한 노드 CRUD I/O처리, 최 앞단 노드임.
     2. data node : 데이터 관리를 위한 노드, 검색 집계등의 처리. (I/O 보통 Public API 막음.)
     3. ingest node : 전처리 파이프라인을 위한 노두
-    4. tribe node : 인덱스 생성 을 불가하며 인덱스 관리, 문서관리를 위한 노드
+    4. cross-cluster search node : 여러 클러스터에 참여하는 특별한노드
     5. coordinating only node : 집계등을 실행할때의 데이터 계산 리소스를 사용할만한 노드
 
 ### 샤드
@@ -42,10 +42,12 @@
 ### 게이트웨이
 
  - 게이트 웨이가 저장소. 문이라 착각하면 안됨
+ - 엘라스틱 서치의 클러스터의 상태를 저장함
 
 #### 리커버리
  
  - 게이트웨이에 저장된 이전 클러스터의 상태를 재설정하는 과정
+ - 클러스터가 종료된 후 재실행 될때 작동
 
 ### 디스커버리
 
