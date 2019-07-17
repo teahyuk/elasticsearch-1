@@ -1,10 +1,11 @@
 ## mapping
   - 생성된 후에는 변경이 불가능함
   - 추가는 가능함
-  - 잘못 매핑되어 있을 경우 새로 매핑을 추해서 땜빵은 가능함
+  - multi field 추가 가능함
   - 매핑 수정하려면 reindex 해야함
   - index를 timebase로 생성하는 가장 큰 이유라고 생각
   - mapping alias를 이용하여 검색되는 데이터를 동적으로 수정 가능함
+    - https://www.elastic.co/guide/en/elasticsearch/reference/7.2/alias.html
 
 ## 데이터 타입
 ### keyword
@@ -19,6 +20,8 @@
 ### nested
   - array 타입이 검색이 이상하게 되는 부분을 보안하기 위해 만든 타입
   - Object가 정확히 일치해야만 검색에 걸림
+### Date
+  - String을 ISO-8601 포멧으로 넣을 경우 자동으로 Date로 인식
 
 ### Analyzer
   - 데이터를 쪼개는 방식을 정의
