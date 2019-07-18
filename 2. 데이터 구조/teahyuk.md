@@ -15,6 +15,17 @@
 
 또 매핑 방식, 또는 저장 방식에 따라서 rawData 저장 안 할 수도 있음.
 
+### plugin들
+
+- 2.x에서 지원하던 plugin들이 보안상의 이유로 없어진 경우가 있다.
+- 이제는 유료로 x-pack에서 지원하는게 많으므로 그곳을 찾아봐도 된다.
+
+- head는 쓰지말고, bigdesk를 standalone버전으로 사용 해보면 좋을 듯.
+> [bigdesk(ElasticStack용 APM이라보심 될듯)](http://asuraiv.blogspot.com/2017/05/elasticsearch-5x-head-bigdesk.html)
+
+- x-pack에 각 cluster의 샤드 상태 확인 가능
+> [x-pack(cluster-status)](https://www.elastic.co/guide/en/x-pack/6.2/watch-cluster-status.html)
+
 
 
 ## 데이터 수집, indexing
