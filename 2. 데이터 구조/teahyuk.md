@@ -26,8 +26,6 @@
 - x-pack에 각 cluster의 샤드 상태 확인 가능
 > [x-pack(cluster-status)](https://www.elastic.co/guide/en/x-pack/6.2/watch-cluster-status.html)
 
-
-
 ## 데이터 수집, indexing
 
 ### 공통
