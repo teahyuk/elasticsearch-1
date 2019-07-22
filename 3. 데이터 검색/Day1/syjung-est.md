@@ -82,6 +82,8 @@
 
     ### 텀쿼리 vs 텀필터
     ![쿼리필터](../../img/데이터검색/데이터검색_2.jpg)
+    - 필터는 점수계산을 하지 않고 캐시로 쿼리 성능을 올릴 수 있다.
+    자주 쓰는 필터라면 _cache옵션(true | false)을 사용하여 해당 필터를 캐싱 시킬 수 있다.
 
 ### 데이터 검색
 ![검색요청](../../img/데이터검색/데이터검색_1.jpg)
@@ -149,9 +151,42 @@
 ~~~
  - 도큐먼트의 _source나 필드 중 어디에도 저장하지 않았다면, elasticsearch로부터 값을 조회할 수 없다.
 
+### 복합쿼리, 복합필터 제공
+ - bool 쿼리
+    - must, must not, should
+ - 범위 쿼리 파라미터
+    - gt, gte, lt, lte
+
+### 데이터 분석 단계
+ ~~~
+ share your experience with NoSql & big data technologies
+ ~~~
+ 1. 문자 필터링 : 문자 필터를 이용해서 특정 문자를 다른 문자로 변환.
+ & -> and
+ ~~~
+ share your experience with NoSql and big data technologies
+ ~~~
+
+ 2. 텍스트를 토큰으로 분해 : 텍스트를 한 개 이상의 토큰의 집합으로 분해한다.
+ 일반적으로 표준 tokanizer 를 사용, 문자를 기반으로 text를 토큰으로 분리할 수도있음.
+ ~~~
+  | share |  your | experience | with | NoSql | and | big | data | technologies |
+ ~~~
+
+ 3. 토큰 필터링 : 토큰 필터를 사용해서 개별 토큰을 변환한다. 입력으로 토큰을 가져와서 변경하거나 필요시에 더 많은 토큰을 추가하고 삭제한다.
+ 소문자화, 불용어(and..), 동의어 처리(technologies, tools)
+ ~~~
+ | share |  your | experience | with | nosql | big | data | tools |
+ ~~~
+
+ 4. 토큰 색인 : 토큰을 색인에 저장한다.
+
+### 검색을 실행하는 동안 분석
+ - match와 match_phrase 쿼리는 검색하기 전에 분석을 수행하는데 반해 term과 terms 쿼리는 그렇지 않다. 
+
 ### 기타 ~
  - _source
  원본 document를 원래 형식 그대로 저장하기 위한 것이다. _source에 원본을 저장할지 여부는 셋팅가능.
-
  - _all
  _all로 검색할 때 elasticsearch는 어떤 필드가 일치하는지와 무관하게 검색 결과를 반환한다. 필드없는 URI로 검색을 실행하면 기본값 _all로 검색한다. 이 또한 셋팅 가능.
+ - 프리픽스와 와일드카드 쿼리 지원
