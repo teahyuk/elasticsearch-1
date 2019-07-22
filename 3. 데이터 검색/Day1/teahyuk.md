@@ -119,3 +119,43 @@
 - `highlight` : 강조표시
   - `<em></em>`태그로 강조됨
   - 태그변경 가능
+
+## QueryDSL
+
+- 쿼리는 일반적으로 전문검색에 사용되고 필터는 yes/no조건의 바이너리 구분에 사용된다.
+- 쿼리는 점수가 있다 filter는 없다.
+- 쿼리결과는 캐싱 되지 않는다, 필터는 된다
+- 쿼리는 응답이 느리고 필터는 빠르다.
+
+### 텀, 텀즈 쿼리
+
+- `term`, `terms`
+- 텀 이란 분석 이후 토큰화 된 각 조각들.
+- 분석 이후 토큰화된 각 텀 에 대한 쿼리.
+- 텀즈로 여러 텀을 and 해서 쿼리함
+  - text타입이나 기타 타입들의 경우 각 필드가 토큰화되서 나누어진 이후에 각각의 쿼리들을 and연산해서 검색 할 수 있다.
+- `minimum_shuold_match`
+  - 최소 포함되어야 하는 텀의 개수
+
+### 매치, 다중 매치 쿼리
+
+- `match`
+- 검색 시에 분석을 거친다.
+- 띄어쓰기하면 or로 합쳐서 분석 (default)
+- `operator`
+  - `and` or `or`
+- `analyzer`
+  - 분석기 사용 종류
+  - ex) `whitespace` : 띄어쓰기로 토크나이징 하는 분석기
+- 이후는 안맞아서 여기 참조
+  - https://www.elastic.co/guide/en/elasticsearch/reference/7.3/query-dsl-match-query.html
+
+### 문자열 쿼리
+
+- `query-string`
+- url에서 `q`와 같음
+  - `{field}:{data}`
+- `default-field`
+  - 필드 선택
+- `default-operator`
+  - 검색어 띄어쓰기 합침조건
