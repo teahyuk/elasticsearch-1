@@ -154,6 +154,10 @@
 - 매치된 결과 카운트
 - explain 쿼리
 - 쿼리 프로파일링
+- 쿼리에 의한 삭제
+- 쿼리에 의한 변경
+- 전체 도큐먼트 매치
+- 불리언 쿼리 사용
 
 ### 검색 실행
 - HTTP 메소드는 GET or POST
@@ -194,6 +198,41 @@
 - [Completion Suggester](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html)
 - [Context Suggester](https://www.elastic.co/guide/en/elasticsearch/reference/current/suggester-context.html)
 
+### 매치된 결과 카운트
+- 결과의 개수만 반환
+- 카운트는 검색보다 더 빠르다.
+
+### explain 쿼리
+-루씬이 결과를 연산하는 방법을 시각화한다.
+
+### 쿼리 프로파일링
+- 내부 Instrumental API를 사용해서 모든 내부 호출을 추적한다.
+
+### 쿼리에 의한 삭제
+- 쿼리로 매치되는 모든 도큐먼트를 삭제하는 호출제공
+- _delete_by_query 기능은 다음 절차로 자동 실행
+    1. 마스터 노드에서 쿼리가 실행되고 결과가 스크롤된다.
+    2. 벌크 크기 요소(기본 1000)만큼 벌크 작업이 진행
+    3. 벌크 결과는 충돌을 점검, 충돌이 없으면 새 벌크 작업이 매치된 도큐먼트 모두 삭제
+- HTTP 메소드 POST로 실행
+```
+    http://<server>/_delete_by_query
+    http://<server>/<index_name(s)>/_delete_by_query
+    http://<server>/<index_name(s)>/<type_name(s)>/_delete_by_query
+```
+
+### 쿼리에 의한 변경
+- _delete_by_query와 유사한 방식으로 동작
+- _update_by_query는 API에 script 섹션 사용가능
+
+### 전체 도큐먼트 매치
+- match_all 쿼리
+- 점수 계산이 필요치 않으므로 빠르다.
+
+### 불리언 쿼리 사용
+- 불리언 쿼리는 포함, 제외, 선택적 포함, 필터링할 쿼리를 프로그래밍 방식으로 정의할 수 있다.
+- 중요한 두가지 개념은 쿼리와 필터
+
 
 ## 06 텍스트 및 수치형 쿼리
 
@@ -206,6 +245,12 @@
 - match 쿼리 사용
 - query_string 쿼리 사용
 - simple_queray_string 쿼리 사용
+- range 쿼리 사용
+- common terms 쿼리
+- ID 쿼리 사용
+- function score 쿼리 사용
+- exists 쿼리 사용
+- template 쿼리 사용
 
 ### term 쿼리 사용
 ### terms 쿼리 사용
@@ -216,6 +261,12 @@
 ### match 쿼리 사용
 ### query_string 쿼리 사용
 ### simple_queray_string 쿼리 사용
+### range 쿼리 사용
+### common terms 쿼리
+### ID 쿼리 사용
+### function score 쿼리 사용
+### exists 쿼리 사용
+### template 쿼리 사용
 
 
 ## 07 관계 및 지오 쿼리
