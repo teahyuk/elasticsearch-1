@@ -142,4 +142,98 @@
 - [Sample.KR](http://www.acornpub.co.kr/book/elasticsearch-cookbook-3)
 - [Sample.US](https://github.com/PacktPublishing/Elasticsearch-5x-Cookbook-Third-Edition)
 
+## 05 검색
 
+- 검색 실행
+- 정렬
+- 하일라이팅
+- 스크롤 쿼리 실행
+- search_after 기능 사용
+- 결과의 inner hits 반환
+- 올바른 쿼리 제안
+- 매치된 결과 카운트
+- explain 쿼리
+- 쿼리 프로파일링
+
+### 검색 실행
+- HTTP 메소드는 GET or POST
+```
+    http://<server>/_search
+    http://<server>/<index_name(s)>/_search
+    http://<server>/<index_name(s)>/<type_name(s)>/_search
+```
+- 다중 색인과 다중 타입은 쉼표로 구분한다.
+- 색인이나 타입을 지정하면 검색은 해당 내용에 한정한다.
+
+### 정렬
+- 정렬하는 가장 일반적인 기준은 텍스트 쿼리와의 관련성
+- 쿼리에 sort 섹션 추가
+
+### 하일라이팅
+- 쿼리로 매치된 텍스트의 요약/강조 할 수 있도록 pre_tags/post_tags 제공
+- 다양한 태그로 표시가능하도록 tags_schema 제공
+
+### 스크롤 쿼리 실행
+- 쿼리는 실행할 때마다 결과를 만들고 사용자에게 반환
+- 전체 도큐먼트를 고유하게 반복하는 특수한 커서를 제공
+- 색인 재생성 작업, 매우 큰 결과 집합을 반복하는 경우 유용
+
+### search_after 기능 사용
+- from과 size를 사용하는 엘라스틱서치 표준 페이징은 모든 쿼리에 대해 from 값 앞의 모든 결과를 연산하고 버려야 하므로 큰 데이터 집합에서 성능이 매우 나쁨
+- search_after는 스크롤 결과를 빠르게 건너뛸 수 있는 기능
+    - 루씬 색인에서 모든 텀은 정렬되 저장되므로 루씬이 텀 값을 건너 뛰는 것은 매우 빠르다.
+    - search_after는 루씬 검색을 빠르게 건너뛰고, 결과 페이징 속도를 높이도록 쿼리를 작성한다.
+
+### 결과의 inner hits 반환
+- 기본적으로 엘라스틱서치는 검색 유형과 매치되는 도큐먼트만 반환하며 중첩 도큐먼트는 반환하지 않는다.
+- inner_hits를 사용하면 중첩 쿼리의 중간 결과를 유지하고 유저에게 반환한다.
+
+### 올바른 쿼리 제안
+- [Term Suggester](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-term.html)
+- [Phrase Suggester](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-phrase.html)
+- [Completion Suggester](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html)
+- [Context Suggester](https://www.elastic.co/guide/en/elasticsearch/reference/current/suggester-context.html)
+
+
+## 06 텍스트 및 수치형 쿼리
+
+- term 쿼리 사용
+- terms 쿼리 사용
+- perfix 쿼리 사용
+- wildcard 쿼리 사용
+- regexp 쿼리 사용
+- span 쿼리 사용
+- match 쿼리 사용
+- query_string 쿼리 사용
+- simple_queray_string 쿼리 사용
+
+### term 쿼리 사용
+### terms 쿼리 사용
+### perfix 쿼리 사용
+### wildcard 쿼리 사용
+### regexp 쿼리 사용
+### span 쿼리 사용
+### match 쿼리 사용
+### query_string 쿼리 사용
+### simple_queray_string 쿼리 사용
+
+
+## 07 관계 및 지오 쿼리
+
+- has_child 쿼리 사용
+- has_parent 쿼리 사용
+- nested 쿼리 사용
+- geo_bounding_box 쿼리 사용
+- geo_polygon 쿼리 사용
+- geo_distance 쿼리 사용
+- geo_distance_range 쿼리 사용
+- geo_hash 쿼리 사용
+
+### has_child 쿼리 사용
+### has_parent 쿼리 사용
+### nested 쿼리 사용
+### geo_bounding_box 쿼리 사용
+### geo_polygon 쿼리 사용
+### geo_distance 쿼리 사용
+### geo_distance_range 쿼리 사용
+### geo_hash 쿼리 사용
