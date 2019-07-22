@@ -129,6 +129,30 @@
         - should
             - 해당 될 필요는 없지만 해당이 된다면 높은 스코어를 갖는다.
             
+### 몰랐던 내용들
+- scroll
+    - 페이지를 통해 많은 양을 가져오는건 메모리상에 낭비이다. 그래서 scroll이라는 개념이 있는데
+    - 처음 요청시 size 옵션을 가진 query 문을 날린다.
+    - 그 결과 이에 해당하는 document랑 scroll id가 날라온다
+    - 그 scroll id를 사용해서 쿼리를 날리면 그다음 결과를 가져온다. scroll은 메모리상에 저장이 되는데 이는
+       일정 시간동안만 존재한다.
+		
+- BM25
+    - 검색에 대한 score 계산하는 algorithm
+    - idf + tfnorm
+         - idf 문서에서 자주 등장하는 단어 일 수록 낮은 가중치를 준다는 공식
+         
+    - tfnorm
+        - 문서내에서 같은 단어가 여러번 등장한다면 그 단어에 높은 가중치를 주는 방법
+
+- match phrase query
+    - 해당 쿼리는 term의 순서를 보장한다.
+    - 보통 검색시 term의 순서를 보장하지 않기에 elastic search , search elastic 은 같은 결과다
+    - 그러나 해당 쿼리문은 elastic search 의 순서를 보장한다.
+    - slop 옵션에 따라 elastic 과 search 사이에 허용가능한 문자수를 의미한다.
+    
+ - term , terms
+    - 해당 쿼리는 keyword 필드에 안성 맞춤이다
+    - term은 text에도 사용할 수 있지만 권장하지 않는다
+    https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html#term-top-level-params
    
-		
-		
