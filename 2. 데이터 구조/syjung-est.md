@@ -2,7 +2,7 @@
 ![데이터_구조](../img/데이터구조/데이터구조_0.PNG)
 
 ### 논리적 배치(Application 관점) : 문서(document), 타입(type), 색인(index)
-![논리적 배치](../img/데이터구조/데이터구조_1.jpg)
+[논리적배치_56p 그림 2.2]
  - document
     - index, 검색의 최소한의 단위
     - JSON 형식의 document
@@ -31,7 +31,7 @@
 
 ### 물리적 배치(관리자 관점) : 노드(node), 샤드(shard)
  - 어떻게 elasticsearch가 확장하는지 이해할 수 있다.
-![물리적 배치](../img/데이터구조/데이터구조_2.jpg)
+[물리적배치_60p 그림 2.3]
  - node
     - elasticsearch를 실행하는 프로세스
     - elasticsearch의 인스턴스
@@ -105,7 +105,7 @@
  - 하나의 변경을 실패처리하고 다음 버전으로 재실행한다.
  - 병렬작업을 허용하고 드물게 나타나는 충돌을 추정하여 해결 낙관적 잠금 (Optimistic locking)
  - 충돌을 야기하는 작업 자체를 막는 비관적 잠금(Pessimistic locking)
-![동시성 문제](../img/데이터구조/데이터구조_3.jpg)
+[동시성 문제_130p 그림 3.5]
  - elasticsearch에서 자동으로 재시도하는 파라미터 retry_on_conflict
  ~~~
  curl -XPOST '{host}:{port}/{index}/{type}/{id}/_update?retry_on_conflict={version}'
