@@ -208,5 +208,13 @@
     - fuzzy , regex 모두 가능
     
 - Phrase Suggest 추천 문장 제안
+    - 인덱스를 만들때 먼저 Phrase suggest를 위한 매핑 작업이 필요하다
+    - https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-phrase.html
+    
 - Context suggest 추천 문맥 제안
+    - https://www.elastic.co/guide/en/elasticsearch/reference/current/suggester-context.html
 
+- boosting query
+    - positive에 일치하는 문서를 반환하고 negative에 해당하는 문서의 score을 줄이는 쿼리
+    - 필수 옵션 positive , negative , negative_boost
+    - positive에 해당하는 결과와 negative에 해당하는 결과가 같으면 score 에 negative_boost를 곱한다.
