@@ -155,4 +155,11 @@
     - 해당 쿼리는 keyword 필드에 안성 맞춤이다
     - term은 text에도 사용할 수 있지만 권장하지 않는다
     https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html#term-top-level-params
-   
+
+- inner hit
+    - elasticsearch 6.x 버전부터 타입이 하나이기 때문에 parent/child 구조가 사라지고 이를 대신할 join data type이 생겼다.
+        - join data type은 field간에 관계를 설정해주는 것이다.
+        - 해당 옵션을 사용하여 child , parent를 저장할 때에는 같은 샤드에 보관 되어야 하기에 routing 정보도 같이 저장
+    - 기존에는 has_child_query 를 사용시 parent의 document만 나왔기에 child를 위해 추가질의가 필요
+    - inner_hits 파라미터를 통해 child도 한번에 검색이 가능하다.
+    - 
