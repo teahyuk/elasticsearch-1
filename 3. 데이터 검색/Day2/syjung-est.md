@@ -1,5 +1,29 @@
 ## 데이터 검색_Day2
 
+### 데이터 분석 단계
+ ~~~
+ share your experience with NoSql & big data technologies
+ ~~~
+ 1. 문자 필터링 : 문자 필터를 이용해서 특정 문자를 다른 문자로 변환.
+ & -> and
+ ~~~
+ share your experience with NoSql and big data technologies
+ ~~~
+
+ 2. 텍스트를 토큰으로 분해 : 텍스트를 한 개 이상의 토큰의 집합으로 분해한다.
+ 일반적으로 표준 tokanizer 를 사용, 문자를 기반으로 text를 토큰으로 분리할 수도있음.
+ ~~~
+  | share |  your | experience | with | NoSql | and | big | data | technologies |
+ ~~~
+
+ 3. 토큰 필터링 : 토큰 필터를 사용해서 개별 토큰을 변환한다. 입력으로 토큰을 가져와서 변경하거나 필요시에 더 많은 토큰을 추가하고 삭제한다.
+ 소문자화, 불용어(and..), 동의어 처리(technologies, tools)
+ ~~~
+ | share |  your | experience | with | nosql | big | data | tools |
+ ~~~
+
+ 4. 토큰 색인 : 토큰을 색인에 저장한다.
+
 ### 사용자지정 분석기
  - 색인이 생성될 때, 특정 색인을 위해 settings 으로 설정
  ~~~
