@@ -66,5 +66,9 @@
             즉 두 필드가 타입이 다름에도 서로 관련이 있어 내부적으로 문제 발생
         https://www.elastic.co/guide/en/elasticsearch/reference/master/removal-of-types.html
 
+### 게이트웨이
+-   클러스터 재시작시 클러스터 상태 밋 샤드 데이터를 저장하는 저장소
+- 마스터 노드에 설정
+
   
  

@@ -218,3 +218,90 @@
     - positive에 일치하는 문서를 반환하고 negative에 해당하는 문서의 score을 줄이는 쿼리
     - 필수 옵션 positive , negative , negative_boost
     - positive에 해당하는 결과와 negative에 해당하는 결과가 같으면 score 에 negative_boost를 곱한다.
+    
+### 몰랐던것
+- 샤드의 상황에 따라 같은 유형의 단어여도 score가 다르다.
+    - 그 이유는 기본적으로 bm25를 사용하는데 전체 document수에 영향을 받기 때문에 score가 차이가 날 수 있다.
+    - 해결 방법?
+        - 인데스에 문서를 많이 넣어라
+        - ?search_type=dfs_query_then_fetch 사용
+            - 모든 샤드로 부터 가져온 후 score계산을 한다.
+            
+-   function score
+    -   질의어에 해당하는 다큐먼트의 score을 변경 가능하도록 하는 것
+    -   score_mode -> fuctions 안에 정의된 쿼리 스코어를 어떻게 계산 할 것이냐(각각 필드에 저장된 weight)
+    -   boost_mode ->  function query와 main query score을 어떻게 계산 할 것인가 
+    - script , random , weight 등 다양하게 score에 영향을 줄 수 있다.
+    -   field Value factor
+        - script랑 마찬가지로 문서의 필드를 사용하여 score에 옇향을 줄 수 있지만 오베헤드가 적다
+            -   script가 오버헤드가 큰 이유는 아마 compile 때문일 것 같다
+        ```
+        {
+            "query": {
+                "function_score": {
+                    "field_value_factor": {
+                        "field": "likes",
+                        "factor": 1.2,  // score에 영향을 줄 점수
+                        "modifier": "sqrt", // 게산하고자 하는 방식
+                        "missing": 1 // 해당 field가 없는 경우 부여 되는 점수
+                    }
+                }
+            }
+        }
+        ```
+        -   field_value_score  음수가 되면 안된다 그런데 log는 음수 및 에러를 발생 시키기에 log1p , log2p사용
+        -   decay
+            - 사용자가 주어진 다큐먼트에 numeric 필드,geo-point의 거리에 따라 점수를 감소 시킨다.
+            ```
+            "DECAY_FUNCTION": { 
+                "FIELD_NAME": { 
+                      "origin": "11, 12", // 사용자 주어진 점수
+                      "scale": "2km", 
+                      "offset": "0km",
+                      "decay": 0.33 // 감소 비율
+                }
+            }
+            ```
+            -   oring - offset-scale 이 부터 decay가 적용된다.
+- search -as -you - type
+    - 인덱싱 된 값에 부분일치를 효과적으로 하기 위해 하위 필드를 두는 타입
+    - shingle token filter을 통해 my.field,my.field._2gram,my.field_3gram 생성
+    -   my_field._index_prefix는 my.field_3gram 을 다시 한번 edge ngram token filter로 wrapping
+
+- rank_feature
+    -   숫자 기능 벡터를 색인 할 수 있다.
+    - 솔직히 잘 모르겟다....
+    - reank_feature 쿼리는 rank_feature 타입에만 사용 할 수 있다.
+        - 해당 쿼리는 숫자 기능의 가치를 기반으로 점수를 높인다.
+        - 비경쟁 히트를 효육적으로 건너 뛸수있는 이점이 있다.
+        
+- 서킷 브레이커
+    -   서킷 브레이커라는 패턴도 존재
+        - 쉽게 말하면 서비스 A를 통해 서비스 B로 가는 로직이 있다.
+        - 서킷브레이커는 이 두 서비스 가운데에 있어 B 서비스의 오류가 발생 시 이를 인지하고 서비스 A로 부터 넘어오는 모든 호출을 막아버린다.
+        -   https://bcho.tistory.com/1247
+    -   엘라스틱 서치에서의 서킷 브레이커
+        - 작업하는 동안 OutOfMemoryError가 발생 하지 않도록 하는 차단기 역할
+        - 차단기는 여러개가 있으며 각 차단기 마다 메모리 사용 제한 이 있으며 부모 레벨의 차단기는 총 메모리 사용 제한을 가지고 있다.
+    - 부모 서킷 브레이커
+    -   fielddata-circuit-breaker
+        -   필드를 메모리에 로드 할 수 있는 메모리 양을 관리 기본은 jvm heap memory 40%
+    -   request-circuit-breaker
+        -    요청당 집계 계산에 사용되는 메모리
+    -    in-flight-circuit-breaker
+        -   전송 또는 HTTP에서 현재 활성 상태인 모든 수신 요청의 메모리 사용량을 제한
+    -   accounting-circuit-breaker
+        - 완료된 요청에 대한 해제 되지 않은 메모리에 보관된 항목의 메모리 제한
+    -   script-compilation-circuit-breaker
+        -  스크립트 컴파일 횟수 제한
+
+- 필드 데이터 캐시
+    -   field를 정렬 할때에는 역인덱스를 사용하는 것이아니라 정렬 기준이 되는 field를 위해 document에 접근해야 한다.
+    -    즉 정렬시 term을 역인덱스에 매핑 시키는 것이 아니라 document를 term에 mapping 시켜야 하는데 이를 uninverted index라고 한다.
+    -   uninverted index를 활용하기 위해 elasticsearh는 내부적으로 query에 해당하는 document에 모든 필드를 메모리에 적재한다.
+    - 필드 데이터 캐시를 사용하는 것에는
+        -   Sorting on a field
+        -   Aggregations on a field
+        -   Scripts that refer to fields
+     - 필드 데이터 캐시로 인해 oom , CircuitBreakingExcpetion이 일어 날 수 있다.
+    -   그래서 사용하는게 elasticsearch 서킷 브레이커
