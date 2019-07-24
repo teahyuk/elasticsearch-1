@@ -35,17 +35,50 @@ By default, Elasticsearch calculates scores on a per-shard basis.
 
 ## [Function score query](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-function-score-query.html)
 - 검색 결과와 임의로 조정한 score 값을 합쳐서 결과를 출력
+- result example
+```json
+{
+    "query": {
+        "function_score": {
+          "query": { "match_all": {} },
+          "boost": "5", 
+          "functions": [
+              {
+                  "filter": { "match": { "test": "bar" } },
+                  "random_score": {}, 
+                  "weight": 23
+              },
+              {
+                  "filter": { "match": { "test": "cat" } },
+                  "weight": 42
+              }
+          ],
+          "max_boost": 42,
+          "score_mode": "max",
+          "boost_mode": "multiply",
+          "min_score" : 42
+        }
+    }
+}
+```
+
 - 옵션은 score_mode, boost_mode, weight
     - score_mode
-        - sub query에서 나온 결과를 어떻게 조합하는가
+        - sub query 에서 나온 결과를 어떻게 조합하는가
         - multiply(default), sum, avg, first, max, min
     - boost_mode
         - sub query로 나온 값과 main query로 나온 값을 어떻게 조합할 것인가를 결정
-        - multiply(default), sum, avg, first, max, min        
+        - multiply(default), sum, avg, first, max, min
+    - weight
+        - weight 값이 존재할 경우 해당 weight 값으로 score 값을 곱함                
 - 함수는 field_value_factor, script_score, Decay functions 
     - field_value_factor
         - 해당 필드에 값이 존재할 경우 그 값을 score 에 포함시킴
         - 해당 함수의 boost 값으로 추가되는 값을 조정할 수 있음
+        - missing 은 해당 필드가 존재하지 않을 경우 들어가야 하는 값을 정의함
+        - 결과는 음수가 되면 안됨
+        - log를 사용할 경우 인자 값이 0이 되면 연산이 되지 않기 때문에 주의해야 함
+        - log1p, log2p를 사용하여 해당 문제를 회피할 수 있음
     - script_score
         - painless로 작성 된 스크립트를 이용해서 score 에 포함 될 값을 선정
     - Decay functions
@@ -70,19 +103,17 @@ see the search_as_you_type field type.
 - 추가된 필드를 이용하여 prefix로 검색 할 수 있고, 중간에서 있는 값도 검색이 가능함
 - 공식 문서의 예제에서는 'multi_match' 와 'match_bool_prefix'를 조합하여 사용
     ### [match_bool_prefix](https://www.elastic.co/guide/en/elasticsearch/reference/7.2/query-dsl-match-bool-prefix-query.html)
-    - if message is 'quick brown f', then query is        
-        ```
-        GET /_search
-                {
-                    "query": {
-                        "bool" : {
-                            "should": [
-                                { "term": { "message": "quick" }},
-                                { "term": { "message": "brown" }},
-                                { "prefix": { "message": "f"}}
-                            ]
-                        }
-                    }
+    - if message is "**quick brown f**", then query is        
+        ```json
+        {
+            "query": {
+                "bool" : {
+                    "should": [
+                        { "term": { "message": "quick" }},
+                        { "term": { "message": "brown" }},
+                        { "prefix": { "message": "f"}}
+                    ]
                 }
+            }
+        }
         ```
-        
