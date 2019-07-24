@@ -15,8 +15,8 @@
 - default는 bm25
 - 5.0 버전에서 TF/IDF 에서 bm25로 변경
 
-<iframe src="//www.slideshare.net/slideshow/embed_code/key/VGU2wk2gXqzRC?startSlide=32" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
- 
+   <iframe src="//www.slideshare.net/slideshow/embed_code/key/VGU2wk2gXqzRC?startSlide=32" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
+
 - https://www.slideshare.net/kjmorc/ss-80803233 (32페이지부터)
 - 찾는 검색어가 문서에 많을수록 score가 높으며 전체 문서에 많이 출연한 단어일수록 score 가 낮음
 
