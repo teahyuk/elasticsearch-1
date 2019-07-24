@@ -16,7 +16,7 @@
 - 5.0 버전에서 TF/IDF 에서 bm25로 변경
 
 <figure>
-<iframe src="//www.slideshare.net/kjmorc/ss-80803233" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/VGU2wk2gXqzRC" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/kjmorc/ss-80803233" title="검색엔진이 데이터를 다루는 법 김종민" target="_blank">검색엔진이 데이터를 다루는 법 김종민</a> </strong> from <strong><a href="https://www.slideshare.net/kjmorc" target="_blank">종민 김</a></strong> </div>
 </figure> 
 
 - https://www.slideshare.net/kjmorc/ss-80803233 (32페이지부터)
