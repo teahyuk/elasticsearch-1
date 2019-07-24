@@ -117,3 +117,23 @@ see the search_as_you_type field type.
             }
         }
         ```
+        
+## [rank_feature](https://www.elastic.co/blog/easier-relevance-tuning-elasticsearch-7-0)
+- 7.0 버전에서 새로 생긴 field 와 query
+- 필드는 rank_feature 와 rank_features
+- 필드에 저장되어 있는 값을 기존 score에 더하는 방식으로 score 조정
+```
+    score = bm25_score + satu(pagerank)
+```
+- 7.0에서 추가된 Faster top k retrieval 을 support 하기 위한 기능으로 추정됨
+```
+this query has the benefit of being able to efficiently skip non-competitive hits 
+when track_total_hits is not set to true
+```
+- 제공되는 함수들은 saturation, logarithm, sigmoid
+```
+    saturation = S / (S + pivot)
+    logarithm = log(scaling_factor + S)
+    sigmoid = S^exp^ / (S^exp^ + pivot^exp^)
+``` 
+- Function score query 에서 값을 조정하는 것과 차이점이 뭔지 모르기 때문에 더 찾아봐야 함 
