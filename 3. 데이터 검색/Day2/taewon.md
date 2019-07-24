@@ -11,12 +11,18 @@
 - prefix가 일치하는 단어들만 결과로 출력됨
 
 # ETC
-## similarity algorithm
+## [similarity algorithm](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables)
 - default는 bm25
 - 5.0 버전에서 TF/IDF 에서 bm25로 변경
 
-   <iframe src="//www.slideshare.net/slideshow/embed_code/key/VGU2wk2gXqzRC?startSlide=32" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
-
+![Alt text](https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blt78ee47f523d10430/5c57eb6165ace9e30b316318/bm25_equation.png)
+```
+    1. qi is the ith query term.
+    2. IDF(gi) is the inverse document frequency of the ith query term.
+        - IDF(gi)는 query term의 횟수가 얼마나 자주 발생되는가에 대한 역수 
+    3. We see that the length of the field is divided by the average field length in the denominator as fieldLen/avgFieldLen.
+        - 필드의 길이가 평균 필드의 길이로 나눠진 값을 이용함(fieldLen/avgFieldLen)
+```
 - https://www.slideshare.net/kjmorc/ss-80803233 (32페이지부터)
 - 찾는 검색어가 문서에 많을수록 score가 높으며 전체 문서에 많이 출연한 단어일수록 score 가 낮음
 
@@ -31,14 +37,24 @@ By default, Elasticsearch calculates scores on a per-shard basis.
 - 검색 결과와 임의로 조정한 score 값을 합쳐서 결과를 출력
 - 옵션은 score_mode, boost_mode, weight
     - score_mode
-        - sub query로 나온 값과 main query로 나온 값을 어떻게 조합할 것인가를 결정
+        - sub query에서 나온 결과를 어떻게 조합하는가
         - multiply(default), sum, avg, first, max, min
     - boost_mode
-        
-- 함수는 field_value_factor, Decay functions, script_score
-    
-
-## search_as_you_type
+        - sub query로 나온 값과 main query로 나온 값을 어떻게 조합할 것인가를 결정
+        - multiply(default), sum, avg, first, max, min        
+- 함수는 field_value_factor, script_score, Decay functions 
+    - field_value_factor
+        - 해당 필드에 값이 존재할 경우 그 값을 score 에 포함시킴
+        - 해당 함수의 boost 값으로 추가되는 값을 조정할 수 있음
+    - script_score
+        - painless로 작성 된 스크립트를 이용해서 score 에 포함 될 값을 선정
+    - Decay functions
+        - 필드의 값이 기준 값에 얼마나 떨어져있는지를 이용해서 얼마나 score를 조작할 것인가를 선정
+        - 종류는 gauss, lin, exp
+        ![Alt text](https://www.elastic.co/guide/en/elasticsearch/reference/current/images/decay_2d.png)
+        - date 필드에 적용하여 시간순으로 정렬할 수 있음
+                    
+## [search_as_you_type](https://www.elastic.co/blog/elasticsearch-7-2-0-released)
 ```
 For more flexible search-as-you-type searches that do not use suggesters, 
 see the search_as_you_type field type.
@@ -53,7 +69,7 @@ see the search_as_you_type field type.
         "please divide", "divide this", "this sentence", "sentence into", and "into shingles".  
 - 추가된 필드를 이용하여 prefix로 검색 할 수 있고, 중간에서 있는 값도 검색이 가능함
 - 공식 문서의 예제에서는 'multi_match' 와 'match_bool_prefix'를 조합하여 사용
-    ### match_bool_prefix
+    ### [match_bool_prefix](https://www.elastic.co/guide/en/elasticsearch/reference/7.2/query-dsl-match-bool-prefix-query.html)
     - if message is 'quick brown f', then query is        
         ```
         GET /_search
