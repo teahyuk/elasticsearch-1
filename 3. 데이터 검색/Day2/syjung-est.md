@@ -100,8 +100,28 @@
  - unique
  - ASCII Folding
  - 동의어
+ - Ngram
+    - 1-gram : 한글자
+    - Bigram : 두글자
+    - Trigram : 세글자
+    - min_gram, max_gram
+ - edge ngram
+    - 앞부분부터 ngram을 만든다.
+    ~~~
+    min_gram = 2
+    max_gram = 6
 
-#### Ngram, edge ngram, shingle
+    "spaghetti" -> sp, spa, spag, spaghm spaghe
+    ~~~
+ - shingle
+    - 문자 수준이 아닌 토큰 수준에서 ngram이다.
+    ~~~
+    min_shingle_size=2
+    max_shingle_size=3
+
+    "foo bar baz" -> foo, foo bar, foo bar baz, bar, bar baz, baz
+    ~~~
+    - shingle 필터는 기본적으로 원래의 토큰을 포함한다. 그래서 원본 토크나이저가 만들어 내는 토큰 foo, bar, baz가 shingle 토큰 필터를 거치게 되어 위와같은 결과가 나온다.
 
 ### 스태밍
  - 단어를 단어의 원형이나 어근으로 줄이는 역할을 한다.
@@ -109,7 +129,7 @@
  - 스태밍 알고리즘
     - 스노우볼 필터
     - porter_stem필터
-    - kstem필터
+    - kstem필터  
   [스태밍 알고리즘_234p 표 5.1]
 
 ## 유사도 검색
@@ -239,7 +259,7 @@ _explain
  - field_value_factor : 어떤 항목의 점수를 높이기 위해 다른 데이터를 활용하여 점수를 부여한다.
  - script : Groovy를 사용하여 세세하게 조정할수 있게끔 지원
  - random : 무작위점수를 문서에 할당한다.
- - decay 함수 : 특정 필드를 기준으로 점수를 점진적으로 줄여준다.
+ - decay 함수 : 특정 필드를 기준으로 점수를 점진적으로 줄여준다.  
  [곡선그래프_266, 267p]
     - linear
     - gauss
