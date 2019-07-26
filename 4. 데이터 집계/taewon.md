@@ -34,7 +34,7 @@
 - As the quantity of values in a bucket grows, the algorithm begins to approximate the percentiles. It is effectively trading accuracy for memory savings. The exact level of inaccuracy is difficult to generalize, since it depends on your data distribution and volume of data being aggregated
   -> 버킷의 값의 양이 증가함에 따라 알고리즘은 백분위를 근사하기 시작합니다. 이것은 효과적으로 메모리 절감을위한 trade off 입니다. 정확도 수준은 데이터 분포 및 집계되는 데이터의 양에 따라 달라지므로 정확히 일반화하기는 어렵습니다.
 ```
- ![Alt text](https://www.elastic.co/guide/en/elasticsearch/reference/current/images/percentiles_error.png)
+![Alt text](https://www.elastic.co/guide/en/elasticsearch/reference/current/images/percentiles_error.png)
  - compression 옵션을 이용하여 정확도를 높일 수 있으며 정확도가 올라감에 따라 메모리를 더 사용하게 됨
  
  ## 2. Bucket Aggregations
@@ -44,7 +44,7 @@
  - keyword 데이터 타입에서 대당 term 이 몇번 나오는지에 대한 통계
  - 각 샤드에서 한번 Agg 된 결과를 정리해서 결과를 반환하기 때문에 count에 대한 값이 정확하지 않을 수 있음
 
- 각 샤드에 값이 아래와 같이 존재할 경우
+ 샤드에 값이 아래와 같이 존재할 경우
 
 | rank | Shard A | Shard B | Shard C |
 | :---: | :---: | :---: | :---: |
@@ -80,7 +80,26 @@
 | 5 | Product B (43) |
 
 Product C 의 경우에는 원래 값이 54가 나와야 하는데 b shard의 결과에서 상위 5개에 들지 못했기 때문에 값이 누락되어서 들어간다
+
 따라서 정확한 값을 얻고 싶을 경우, 각 샤드에서 반환되는 결과의 size 값을 늘려야 보다 정확한 값을 얻을 수 있다   
 
-
 - 각 샤드별로 반환되는 값의 default는 (size * 1.5 + 10)
+- doc_count_error_upper_bound 은 샤드에서 선택되지 못한 값들 중 가장 마지막 값들의 합
+
+위의 예제에서 doc_count_error_upper_bound 은
+
+| rank | Shard A | Shard B | Shard C |
+| :---: | :---: | :---: | :---: |
+| 5 | Product E (2) | Product G (15) | Product E (29) |
+
+위 값들의 합에 의해 46이 된다
+- sum_other_doc_count 는 반환되지 않은 결과들의 문서의 총 합
+
+## 3. Pipeline Aggregations
+- 다른 집계로 생성된 결과를 참조해서 추가 작업을 수행함
+- Parent, Sibling 두가지 타입이 있음
+    - parent
+        - 집계를 수행한 후 나온 결과를 상위 집계 결과에 반영함
+    - Sibling
+        - 동일 선상에서 수행되는 집계를 의미함
+- Pipeline은 하위 집계를 가질 수 없으며 Pipeline의 종류에 따라 다른 Pipeline Aggregation 의 결과를 참조할 수 있음
