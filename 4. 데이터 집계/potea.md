@@ -43,7 +43,7 @@
     - 질의가 생략되면 내부적으로 match_all 쿼리로 수행
     - 글로벌 버킷을 사용하면 질의 내에서도 전체 문서를 대상으로 집계 수행가능
 
-``` JSON
+```
     "aggregations" : { 
     "<aggregation_name>" : { 
         "<aggregation_type>" : { 
@@ -165,7 +165,7 @@
     - 이동 평균 버킷 집계
         - type: "moving_avg_bucket"
 
-``` JSON
+```
     {
         "aggs": {
             "histo": {
