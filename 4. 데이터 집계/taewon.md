@@ -46,7 +46,7 @@
  
  각 샤드에 값이 아래와 같이 존재할 경우
 | rank | Shard A | Shard B | Shard C |
-| - | - | - | - |
+| :---: | :---: | :---: | :---: |
 | 1 | Product A (25) | Product A (30) | Product A (45) |
 | 2 | Product B (18) | Product B (25) | Product C (44) |
 | 3 | Product C (6) | Product F (17) | Product Z (36) |
@@ -60,7 +60,7 @@
 
 상위 5개의 값에 대해서는 결과가 아래와 같이 나온다
 | rank | Shard A | Shard B | Shard C |
-| - | - | - | - |
+| :---: | :---: | :---: | :---: |
 | 1 | Product A (25) | Product A (30) | Product A (45) |
 | 2 | Product B (18) | Product B (25) | Product C (44) |
 | 3 | Product C (6) | Product F (17) | Product Z (36) |
@@ -69,7 +69,7 @@
 
 각 샤드에서 반환된 값을 합쳐서 결과를 만들기 때문에 최종 결과는 다음과 같이 나온다
 | rank | Product |
-| - | - |
+| :---: | :---: |
 | 1 | Product A (100) |
 | 2 | Product Z (52) | 
 | 3 | Product C (50) | 
